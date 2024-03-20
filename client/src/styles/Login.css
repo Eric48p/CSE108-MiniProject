@@ -1,0 +1,108 @@
+body, html{
+  margin: 0;
+  overflow: hidden;
+}
+.login-container{
+  display: flex;
+  margin: 0;
+  width: 100%;
+  height: 100vh;
+  flex-direction: column;
+}
+.login-background{
+  display: flex;
+  width: 100%;
+  height: 100vh;
+  flex-direction: row;
+}
+
+.login-image-box{
+  width: 55%;
+}
+.login-image{
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  width: calc(100% + 550px);
+  margin-left: -550px;
+}
+
+.login-form-box{
+  display: flex;
+  width: 45%;
+  align-items: center;
+  justify-content: center;
+}
+.login-form{
+  display: flex;
+  position: relative;
+  width: 40%;
+  height: 50%;
+  flex-direction: column;
+  justify-content: center;
+}
+.user-box{
+  position: relative;
+}
+.login-form h1{
+  margin: 0;
+  font-weight: bold;
+  font-size: 35px;
+  margin-bottom: 10px;
+}
+.login-form p{
+  margin: 0;
+  font-size: 20px;
+  margin-bottom: 40px;
+}
+.login-form .user-box input{
+  background: transparent;
+  width: 100%;
+  height: 50px;
+  border: 0;
+  border-bottom: 1px solid black;
+  margin-bottom: 40px;
+  outline: none;
+  font-size: 18px;
+  cursor: default;
+}
+.login-form .user-box label {
+  position: absolute;
+  top: 0;
+  padding: 10px 0;
+  font-size: 18px;
+  pointer-events: none;
+  transition: .5s;
+}
+.login-form .user-box input:focus ~ label,
+.login-form .user-box input:valid ~ label {
+  top: -20px;
+  color: black;
+  font-size: 18px;
+  font-weight: bold;
+}
+.login-form button{
+  border: 0;
+  height: 50px;
+  border-radius: 10px;
+  font-size: 18px;
+  font-weight: bold;
+  cursor: pointer;
+  /* margin-top: 10px; */
+}
+.login-form button:hover{
+  opacity: 90%;
+}
+.login-button{
+  background-color: #0f2d52;
+  color: white;
+  width: 100px;
+  margin-right: 40px;
+  box-shadow: 0 0.7065919983928324px 0.7065919983928324px -0.625px rgba(0, 0, 0, 0.15), 0 1.8065619053231785px 1.8065619053231785px -1.25px rgba(0, 0, 0, 0.14398), 0 3.6217592146567767px 3.6217592146567767px -1.875px rgba(0, 0, 0, 0.13793), 0 6.8655999097303715px 6.8655999097303715px -2.5px rgba(0, 0, 0, 0.12711), 0 13.646761411524492px 13.646761411524492px -3.125px rgba(0, 0, 0, 0.10451), 0 30px 30px -3.75px rgba(0, 0, 0, 0.05);
+}
+.create-account-button{
+  background-color: #dbaa00;
+  color: white;
+  width: 150px;
+  box-shadow: 0 0.7065919983928324px 0.7065919983928324px -0.625px rgba(0, 0, 0, 0.15), 0 1.8065619053231785px 1.8065619053231785px -1.25px rgba(0, 0, 0, 0.14398), 0 3.6217592146567767px 3.6217592146567767px -1.875px rgba(0, 0, 0, 0.13793), 0 6.8655999097303715px 6.8655999097303715px -2.5px rgba(0, 0, 0, 0.12711), 0 13.646761411524492px 13.646761411524492px -3.125px rgba(0, 0, 0, 0.10451), 0 30px 30px -3.75px rgba(0, 0, 0, 0.05);
+}
