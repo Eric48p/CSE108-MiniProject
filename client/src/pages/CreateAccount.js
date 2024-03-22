@@ -1,5 +1,5 @@
 import '../styles/CreateAccount.css'
-import LoginNavbar from '../components/Navbar';
+import LoginNavbar from '../components/LoginNavbar';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 

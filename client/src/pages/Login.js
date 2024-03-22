@@ -2,7 +2,7 @@ import '../styles/Login.css';
 import loginImage from '../images/SUNP-UCMerced.png';
 import { useNavigate } from 'react-router-dom';
 import { useState } from 'react';
-import LoginNavbar from '../components/Navbar';
+import LoginNavbar from '../components/LoginNavbar';
 
 
 function Login() {
