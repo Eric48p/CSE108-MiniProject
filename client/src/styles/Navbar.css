@@ -1,12 +1,13 @@
 .nav{
   display: flex;
-  background-color: #0f2d52;
+  /* background-color: #0f2d52; */
   width: 100%;
   height: fit-content;
   align-items: center;
+  border-bottom: 2px solid #DEDEDE;
 }
 .mercedLogo{
-  object-fit: contain;
-  height: 40px;
-  margin: 10px 10px;
+  object-fit: fill;
+  height: 75px;
+  margin: 5px 5px;
 }

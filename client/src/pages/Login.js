@@ -2,6 +2,7 @@ import '../styles/Login.css';
 import loginImage from '../images/SUNP-UCMerced.png';
 import { useNavigate } from 'react-router-dom';
 import { useState } from 'react';
+import LoginNavbar from '../components/Navbar';
 
 
 function Login() {
@@ -25,6 +26,7 @@ function Login() {
       console.log('Email:', loginData.email.toLowerCase());
       console.log('Password:', loginData.password);
     } else {
+      alert('Email or Password Incorrect.')
       console.log('Email or password is empty');
     }
   };
@@ -35,6 +37,7 @@ function Login() {
 
   return (
     <div className='login-container'>
+      <LoginNavbar />
       <div className="login-background">
         <div className='login-image-box'>
           <img src={loginImage} className='login-image'></img>

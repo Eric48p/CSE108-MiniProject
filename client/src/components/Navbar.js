@@ -1,9 +1,13 @@
 import '../styles/Navbar.css'
+import ucmLogo from '../images/UCM-logo.png'
 
-export default function Navbar (){
+
+export default function LoginNavbar (){
   return (
     <nav className="nav">
-      <img src='https://myconnect.ucmerced.edu/sites/all/themes/UCMerced/ucmlogo.png' className='mercedLogo'></img>
+      <a href='/'>
+        <img src={ucmLogo} className='mercedLogo' ></img>
+      </a>
     </nav>
   )
 }
