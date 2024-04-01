@@ -3,7 +3,11 @@ import requests
 
 BASE = "http://127.0.0.1:5000/"
 
-response = requests.post(BASE + "createUser", json={'role' : 'Teacher', 'firstName' : 'Robert', 'lastName' : 'Simpson', 'email' : 'robert23@gmail.com', 'password' : 'x7n937cdoen@'})
+# response = requests.post(BASE + "enrollStudent", json={'role' : 'Student', 'firstName' : 'Diego', 'courseName' : 'English 101', 'grade' : '58'})
+# print(response.json())
+# response = requests.delete(BASE + "deleteUser", json={'role' : 'Student', 'firstName' : 'Bob', 'lastName' : 'Simpson'})
+# print(response.json())
+response = requests.get(BASE + 'allCourses', json={'firstName' : 'Pablo', 'lastName' : 'Martinez'})
 print(response.json())
 
 
