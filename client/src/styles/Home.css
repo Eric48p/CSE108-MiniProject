@@ -13,3 +13,18 @@
   align-items: center;
   justify-content: center;
 }
+
+.courses-table-background{
+  background-color: green;
+  width: 80%;
+  height: 80%;
+  /* height: fit-content; */
+  /* margin-top: 5rem; */
+}
+.courses-table{
+  width: 100%;
+}
+.courses-table tr{
+  background-color: white;
+  height: 50px;
+}
