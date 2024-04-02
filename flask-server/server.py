@@ -2,6 +2,7 @@ from flask import Flask, request, jsonify
 from flask_restful import abort
 from flask_cors import CORS
 from flask_sqlalchemy import SQLAlchemy
+from flask_admin import Admin
 
 # from sqlalchemy import create_engine, MetaData, Table
 
@@ -10,6 +11,7 @@ CORS(app)  # Enable CORS for all routes
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///database.db'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db = SQLAlchemy(app)
+admin = Admin(app)
 
 class Accountdetails(db.Model):
   id = db.Column(db.Integer, primary_key=True, autoincrement=True)
