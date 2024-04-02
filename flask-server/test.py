@@ -7,9 +7,11 @@ BASE = "http://127.0.0.1:5000/"
 # print(response.json())
 # response = requests.delete(BASE + "deleteUser", json={'role' : 'Student', 'firstName' : 'Bob', 'lastName' : 'Simpson'})
 # print(response.json())
-response = requests.get(BASE + 'allCourses', json={'firstName' : 'Pablo', 'lastName' : 'Martinez'})
-print(response.json())
+# response = requests.post(BASE + 'createCourse', json={'role' : 'Teacher', 'courseName' : 'Science', 'teacher' : 'Sarah Miller', 'courseTime' : '8:30 AM - 9:30 AM', 'capacity' : 200, 'totalEnrolled' : 10})
+# print(response.json())
 
+response = requests.get(BASE + 'studentCourses', json={'firstName' : 'Diego', 'lastName' : 'Sanchez'})
+print(response.json())
 
 # import requests
 

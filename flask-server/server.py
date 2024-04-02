@@ -90,6 +90,30 @@ def student_registered_courses():
     
     return jsonify(courses)
 
+# Allows a teacher to see their courses
+@app.route('/teacherCourses', methods=['GET'])
+def teachers_courses():
+    data = request.json
+
+    if data:
+      teacherName = data.get('teacher')
+
+    teacher = Accountdetails.query.filter_by(firstName=teacherName.split()[0]).first()
+
+    if teacher.role != 'Teacher':
+      return jsonify({'error': 'User is not a teacher'}), 404
+    elif not teacher:
+      return jsonify({'message': 'Teacher does not exist'}), 404
+
+    courses = Courses.query.filter_by(teacher=teacherName).all()
+
+    teacherCourses = []
+    for x in courses:
+      teacherCourses.append(x.to_dict())
+
+    
+    return jsonify(teacherCourses)
+
 # Allows a student to view all courses available
 @app.route('/allCourses', methods=['GET'])
 def show_all_courses():
@@ -145,14 +169,15 @@ def create_course():
     data = request.json
 
     if data:
-        role = data.get('role')
-        courseName = data.get('courseName')
-        teacher = data.get('courseTime')
-        capacity = data.get('capacity')
-        totalEnrolled = data.get('totalEnrolled')
+      role = data.get('role')
+      courseName = data.get('courseName')
+      teacher = data.get('courseTime')
+      capacity = data.get('capacity')
+      courseTime = data.get('courseTime')
+      totalEnrolled = data.get('totalEnrolled')
 
       if role == 'Teacher':
-        new_course = Courses(courseName=courseName, teacher=teacher, capacity=capacity, totalEnrolled=totalEnrolled)
+        new_course = Courses(courseName=courseName, teacher=teacher, courseTime=courseTime, capacity=capacity, totalEnrolled=totalEnrolled)
         db.session.add(new_course)
         db.session.commit()
 
