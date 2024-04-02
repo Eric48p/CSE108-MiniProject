@@ -3,10 +3,14 @@ from flask_restful import abort
 from flask_cors import CORS
 from flask_sqlalchemy import SQLAlchemy
 from flask_admin import Admin
+from flask_admin.contrib.sqla import ModelView
+
+
 
 # from sqlalchemy import create_engine, MetaData, Table
 
 app = Flask(__name__)
+app.secret_key = 'super secret key'
 CORS(app)  # Enable CORS for all routes
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///database.db'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
@@ -35,6 +39,12 @@ class Accountdetails(db.Model):
         'password' : self.password
     }
 
+class AccountdetailsView(ModelView):
+  column_list = ('id', 'firstName', 'lastName', 'email', 'role', 'password')
+  can_export = True
+
+admin.add_view(AccountdetailsView(Accountdetails, db.session))
+
 class Courses(db.Model):
   id = db.Column(db.Integer, primary_key=True, autoincrement=True)
   courseName = db.Column(db.String(100), nullable=False)
@@ -57,6 +67,12 @@ class Courses(db.Model):
         'totalEnrolled' : self.totalEnrolled
     }
 
+class CoursesView(ModelView):
+  column_list = ('id', 'courseName', 'teacher', 'courseTime', 'capacity', 'totalEnrolled')
+  can_export = True
+
+admin.add_view(CoursesView(Courses, db.session))
+
 class StudentsEnrolledInCourse(db.Model):
   id = db.Column(db.Integer, primary_key=True, autoincrement=True)
   studentId = db.Column(db.Integer, db.ForeignKey('accountdetails.id'))
@@ -65,6 +81,12 @@ class StudentsEnrolledInCourse(db.Model):
 
   def __repr__(self):
     return f'<Student: {self.studentId}, courseId: {self.courseId}>'
+
+class StudentsEnrolledInCourseView(ModelView):
+  column_list = ('id', 'studentId', 'courseId', 'grade')
+  can_export = True
+
+admin.add_view(StudentsEnrolledInCourseView(StudentsEnrolledInCourse, db.session))
 
 # Allows student to view their courses they are registered for
 @app.route('/studentCourses', methods=['GET'])
