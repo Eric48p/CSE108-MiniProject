@@ -1,0 +1,49 @@
+If student wants to drop a course:
+- Send email and course name to backend
+- backend should get entire user json from email and entire course json from course name
+- Goal is for backend to retrieve student ID and course ID
+- If both ID's are in enrolled table, delete row
+
+If a student wants to enroll in a course:
+- send email and course name to backend
+- backend should get entire user json from email and entire course json from course name
+- Retieve student ID and Course ID and store them in the enrolled table with a default grade of 100
+
+Create User:
+- send user credentials from frontend to backend if all entries are filled
+- If email already exists in user table, dont store data and send an error
+- If email in unique, store date in db
+
+Login:
+- Send email and password from frontend
+- Backend will check to see if email exists in table and if password matches the password in the table that is associated with the email that was sent.
+- If email and password match, send good response, if not send an error response
+
+Getting user credentials:
+- Front end will make a call to the backend to retrieve user credentials from an email provided by the frontend
+- Backend will send all user credentials associated with the unique email
+
+Getting all courses:
+- Back end will send all course data
+
+Getting courses student is enrolled in:
+- Send backend a Student Id from frontend
+- Backend will filter all entries in enrolled courses table to only show entries with a matching Student ID
+
+===== TEACHER =====
+
+Course name should be unique
+
+Getting all courses that a teacher teaches:
+- frontend will send first name and last name
+- backend will filter courses by teacher name and send them to frontend
+
+Teacher displaying students and their grades:
+- Frontend will send course id when clicked
+- use course id to filter enrolled table to only show entries with matching course id
+- youll be left with student id's, matching course id's and grades
+- return student id, first name, last name, and grade associated with student id
+
+Editing a students grade:
+- Frontend will send student id, and course id, and edited grade
+- Backend will find matching entry in enrolled table and edit grade to match desired result
