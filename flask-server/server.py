@@ -17,6 +17,21 @@ app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db = SQLAlchemy(app)
 admin = Admin(app)
 
+class StudentsEnrolledInCourse(db.Model):
+  id = db.Column(db.Integer, primary_key=True, autoincrement=True)
+  studentId = db.Column(db.Integer, db.ForeignKey('accountdetails.id'))
+  courseId = db.Column(db.Integer, db.ForeignKey('courses.id'))
+  grade = db.Column(db.Integer, nullable=False)
+
+  def __repr__(self):
+    return f'<Student: {self.studentId}, courseId: {self.courseId}>'
+
+class StudentsEnrolledInCourseView(ModelView):
+  column_list = ('id', 'studentId', 'courseId', 'grade')
+  can_export = True
+
+admin.add_view(StudentsEnrolledInCourseView(StudentsEnrolledInCourse, db.session))
+
 class Accountdetails(db.Model):
   id = db.Column(db.Integer, primary_key=True, autoincrement=True)
   firstName = db.Column(db.String(100), nullable=False)
@@ -73,20 +88,7 @@ class CoursesView(ModelView):
 
 admin.add_view(CoursesView(Courses, db.session))
 
-class StudentsEnrolledInCourse(db.Model):
-  id = db.Column(db.Integer, primary_key=True, autoincrement=True)
-  studentId = db.Column(db.Integer, db.ForeignKey('accountdetails.id'))
-  courseId = db.Column(db.Integer, db.ForeignKey('courses.id'))
-  grade = db.Column(db.Integer, nullable=False)
 
-  def __repr__(self):
-    return f'<Student: {self.studentId}, courseId: {self.courseId}>'
-
-class StudentsEnrolledInCourseView(ModelView):
-  column_list = ('id', 'studentId', 'courseId', 'grade')
-  can_export = True
-
-admin.add_view(StudentsEnrolledInCourseView(StudentsEnrolledInCourse, db.session))
 
 # Allows student to view their courses they are registered for
 @app.route('/studentCourses', methods=['GET'])
@@ -254,5 +256,7 @@ def delete_user():
     else:
       return jsonify({'message': 'User does not exist, cannot delete'}), 400
 
+# with app.app_context():
+#   db.create_all()
 if __name__ == "__main__":
     app.run(debug=True)
