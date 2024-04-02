@@ -193,21 +193,17 @@ def create_course():
     data = request.json
 
     if data:
-      role = data.get('role')
       courseName = data.get('courseName')
-      teacher = data.get('courseTime')
+      teacher = data.get('teacher')
       capacity = data.get('capacity')
       courseTime = data.get('courseTime')
       totalEnrolled = data.get('totalEnrolled')
 
-      if role == 'Teacher':
-        new_course = Courses(courseName=courseName, teacher=teacher, courseTime=courseTime, capacity=capacity, totalEnrolled=totalEnrolled)
-        db.session.add(new_course)
-        db.session.commit()
+      new_course = Courses(courseName=courseName, teacher=teacher, courseTime=courseTime, capacity=capacity, totalEnrolled=totalEnrolled)
+      db.session.add(new_course)
+      db.session.commit()
 
-        return jsonify({'message': 'Course created successfully'}), 201
-      else:
-        return jsonify({'error': 'User is not a student'}), 400
+      return jsonify({'message': 'Course created successfully'}), 201
     else:
         return jsonify({'error': 'Invalid JSON'}), 400
 
@@ -217,11 +213,11 @@ def enroll_student():
     data = request.json
 
     if data:
-      student_firstName = data.get('firstName')
+      student_email = data.get('email')
       course_name = data.get('courseName')
-      grade = data.get('grade')
+      grade = 100
 
-    student = Accountdetails.query.filter_by(firstName=student_firstName).first()
+    student = Accountdetails.query.filter_by(email=student_email).first()
     course = Courses.query.filter_by(courseName=course_name).first()
       
     if student and student.role == 'Student':
