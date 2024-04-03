@@ -12,22 +12,30 @@ export default function Navbar (){
     setDropdownOpen(!dropdownOpen);
   };
 
+  const role = 'Student'
+
   return (
     <nav className="nav">
       <div className='nav-spacer' style={{alignItems: "center"}}>
-        <a href='/Home'>
+        <a href='/MyCourses'>
           <img src={ucmLogo} className='mercedLogo' ></img>
         </a>
       </div>
       <div className='nav-spacer' style={{alignItems: "center", justifyContent: "center"}}>
+      {role == 'Student' ? (
         <ul>
-          <a href='/Home'>
-            <li>My Courses</li>
-          </a>
-          <a href='/Home'>
-            <li>Available Courses</li>
-          </a>
-        </ul>
+        <a href='/MyCourses'>
+          <li>My Courses</li>
+        </a>
+        <a href='/AvailableCourses'>
+          <li>Available Courses</li>
+        </a>
+      </ul>
+      ) : (
+        // Nothing Will be renders
+        <></>
+      )}
+        
       </div>
       <div className='nav-spacer' style={{alignItems: "center", justifyContent: "end"}}>
         <div className="dropdown" onMouseEnter={toggleDropdown} onMouseLeave={toggleDropdown}>

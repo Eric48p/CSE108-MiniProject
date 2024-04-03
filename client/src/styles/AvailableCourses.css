@@ -1,0 +1,38 @@
+.AvailableCourses-container{
+  display: flex;
+  margin: 0;
+  width: 100%;
+  height: fit-content;
+  flex-direction: column;
+}
+.AvailableCourses-background{
+  /* background-color: #DEDEDE; */
+  display: flex;
+  width: 100%;
+  min-height: 90vh;
+  align-items: center;
+  justify-content: center;
+}
+
+.AvailableCourses-table-background{
+  background-color: #DEDEDE;
+  width: 80%;
+  height: fit-content;
+  box-shadow: rgba(0, 0, 0, 0.08) 0px 4px 100px;
+  margin-top: 4%;
+  margin-bottom: 4%;
+}
+.AvailableCourses-table{
+  width: 100%;
+}
+.AvailableCourses-table tr{
+  background-color: white;
+  height: 100px;
+}
+.AvailableCourses-table th{
+  font-size: 22px;
+}
+.AvailableCourses-table td{
+  font-size: 20px;
+  text-align: center;
+}

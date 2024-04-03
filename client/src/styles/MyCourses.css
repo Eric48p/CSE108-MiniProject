@@ -1,12 +1,12 @@
-.home-container{
+.MyCourses-container{
   display: flex;
   margin: 0;
   width: 100%;
   height: 100vh;
   flex-direction: column;
 }
-.home-background{
-  background-color: #DEDEDE;
+.MyCourses-background{
+  /* background-color: #DEDEDE; */
   display: flex;
   width: 100%;
   height: 100vh;
@@ -15,16 +15,22 @@
 }
 
 .courses-table-background{
-  background-color: green;
+  background-color: #DEDEDE;
   width: 80%;
-  height: 80%;
-  /* height: fit-content; */
-  /* margin-top: 5rem; */
+  height: fit-content;
+  box-shadow: rgba(0, 0, 0, 0.08) 0px 4px 100px;
 }
 .courses-table{
   width: 100%;
 }
 .courses-table tr{
   background-color: white;
-  height: 50px;
+  height: 100px;
+}
+.courses-table th{
+  font-size: 22px;
+}
+.courses-table td{
+  font-size: 20px;
+  text-align: center;
 }

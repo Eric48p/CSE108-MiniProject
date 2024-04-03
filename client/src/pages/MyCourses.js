@@ -1,13 +1,14 @@
-import '../styles/Home.css'
+import '../styles/MyCourses.css'
 import Navbar from '../components/Navbar';
 import MyCourse from '../components/MyCourse';
 
-function Home(){
+function MyCourses(){
+  const role = 'Student'
 
   return(
-    <div className="home-container">
+    <div className="MyCourses-container">
       <Navbar />
-      <div className="home-background">
+      <div className="MyCourses-background">
         <div className='courses-table-background'>
           <table className='courses-table'>
             <tr>
@@ -16,7 +17,11 @@ function Home(){
               <th>Time</th>
               <th>Total Enrolled</th>
             </tr>
-            <MyCourse />
+            <MyCourse  userRole={role}/>
+            <MyCourse  userRole={role}/>
+            <MyCourse  userRole={role}/>
+            <MyCourse  userRole={role}/>
+
           </table>
         </div>
       </div>
@@ -24,4 +29,4 @@ function Home(){
   );
 }
 
-export default Home;
+export default MyCourses;

@@ -1,7 +1,8 @@
 import { Routes, Route, useNavigate } from 'react-router-dom';
 import Login from '../pages/Login';
 import CreateAccount from '../pages/CreateAccount';
-import Home from '../pages/Home';
+import MyCourses from '../pages/MyCourses';
+import AvailableCourses from '../pages/AvailableCourses';
 
 function Navigation() {
 
@@ -9,7 +10,8 @@ function Navigation() {
       <Routes>
           <Route path="/" element={<Login />} />
           <Route path="/CreateAccount" element={<CreateAccount />} />
-          <Route path="/Home" element={<Home />} />
+          <Route path="/MyCourses" element={<MyCourses />} />
+          <Route path="/AvailableCourses" element={<AvailableCourses />} />
       </Routes>
   );
 }
