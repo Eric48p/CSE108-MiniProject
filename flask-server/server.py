@@ -42,7 +42,7 @@ class Accountdetails(db.Model):
   students_enrolled_in_course = db.relationship('StudentsEnrolledInCourse', backref='accountdetails')
 
   def __repr__(self):
-    return f"Accountdetails(name = {self.firstName}, last_name = {self.lastName}, email = {self.email})"
+    return f"Accountdetails(name = {self.firstName}, last_name = {self.lastName}, email = {self.email}, id = {self.id})"
 
   def to_dict(self):
     return {
@@ -100,7 +100,7 @@ def student_registered_courses():
         firstName = data.get('firstName')
         lastName = data.get('lastName')
 
-    student = Accountdetails.query.filter_by(firstName=firstName).first()
+    student = Accountdetails.query.filter_by(firstName=firstName, lastName=lastName).first()
 
     if student.role != 'Student':
       return jsonify({'error': 'User is not a student'}), 404
@@ -132,6 +132,31 @@ def teachers_courses():
       return jsonify({'message': 'Teacher does not exist'}), 404
 
     courses = Courses.query.filter_by(teacher=teacherName).all()
+
+    teacherCourses = []
+    for x in courses:
+      teacherCourses.append(x.to_dict())
+
+    
+    return jsonify(teacherCourses)
+
+# Allows a teacher to see all the students in a specific course
+@app.route('/courseStudents', methods=['GET'])
+def students_in_Course():
+    data = request.json
+
+    if data:
+      teacher = data.get('teacher')
+      courseName = data.get('courseName')
+
+    course = Courses.query.filter_by(courseName=courseName).first()
+
+    if teacher.role != 'Teacher':
+      return jsonify({'error': 'User is not a teacher'}), 404
+    elif not teacher:
+      return jsonify({'message': 'Teacher does not exist'}), 404
+
+    students = StudentsEnrolledInCourse.query.filter_by(courses=course).all()
 
     teacherCourses = []
     for x in courses:
@@ -178,14 +203,19 @@ def create_user():
         email = data.get('email')
         password = data.get('password')
 
-        new_user = Accountdetails(firstName=firstName, lastName=lastName, email=email, password=password, role=role)
-        db.session.add(new_user)
-        db.session.commit()
+        user_exist = Accountdetails.query.filter_by(email=email).first()
 
-        # Process the user data here (e.g., store in database, etc.)
-        # print(role, firstName, lastName, email, password)
+        if user_exist:
+          return jsonify({'error': 'User already exist'}), 400
+        else:
+          new_user = Accountdetails(firstName=firstName, lastName=lastName, email=email, password=password, role=role)
+          db.session.add(new_user)
+          db.session.commit()
 
-        return jsonify({'message': 'User created successfully'}), 201
+          # Process the user data here (e.g., store in database, etc.)
+          # print(role, firstName, lastName, email, password)
+
+          return jsonify({'message': 'User created successfully'}), 201
     else:
         return jsonify({'error': 'Invalid JSON'}), 400
 
@@ -209,6 +239,8 @@ def create_course():
     else:
         return jsonify({'error': 'Invalid JSON'}), 400
 
+
+
 # Registers a student for a course
 @app.route('/enrollStudent', methods=['POST'])
 def enroll_student():
@@ -221,10 +253,15 @@ def enroll_student():
 
     student = Accountdetails.query.filter_by(email=student_email).first()
     course = Courses.query.filter_by(courseName=course_name).first()
+
+    studentEnrollment = StudentsEnrolledInCourse.query.filter_by(accountdetails=student, courses=course).first()
+
+    if studentEnrolled:
+      return jsonify({'error': 'Student is already enrolled in the course'}), 400
       
     if student and student.role == 'Student':
         if not course:
-          abort(404, message='Course does not exist')
+          return jsonify({'error': 'Course does not exist'}), 400
         else:
           if course.totalEnrolled < course.capacity:
             enrollment = StudentsEnrolledInCourse(accountdetails=student, courses=course, grade=grade)
@@ -236,6 +273,32 @@ def enroll_student():
             return jsonify({'error': 'Course is at capacity'}), 400
     else:
         return jsonify({'error': 'Invalid student ID or role'}), 400
+
+# Allows student to drop a course
+@app.route('/dropCourse', methods=['DELETE'])
+def drop_student_from_course():
+    data = request.json
+
+    if data:
+      student_email = data.get('email')
+      course_name = data.get('courseName')
+      
+    course = Courses.query.filter_by(courseName=course_name).first()
+    student_account = Accountdetails.query.filter_by(email=student_email).first()
+
+    if course and student_account:
+      studentEnrollment = StudentsEnrolledInCourse.query.filter_by(accountdetails=student_account, courses=course).first()
+
+      if studentEnrollment:
+        db.session.delete(studentEnrollment)
+        course.totalEnrolled = course.totalEnrolled - 1
+        db.session.commit()
+        return jsonify({'message': 'Student dropped sucessfully'}), 201
+      else:
+        return jsonify({'error': 'Student is not enrolled in the course'}), 400
+
+    else:
+      return jsonify({'error': 'Student or Course does not exist'}), 400
 
 @app.route('/deleteUser', methods=['DELETE'])
 def delete_user():

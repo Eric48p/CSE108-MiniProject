@@ -9,12 +9,18 @@ BASE = "http://127.0.0.1:5000/"
 # print(response.json())
 # response = requests.post(BASE + 'createCourse', json={'courseName' : 'CSE 155', 'teacher' : 'Ammon Hepworth', 'courseTime' : '8:30 AM - 9:30 AM', 'capacity' : 200, 'totalEnrolled' : 10})
 # print(response.json())
-# response = requests.get(BASE + 'studentCourses', json={'firstName' : 'Diego', 'lastName' : 'Sanchez'})
-# print(response.json())
 
-response = requests.post(BASE + 'enrollStudent', json={'email' : 'noemail@email.com', 'courseName' : 'CSE 155'})
+# response = requests.post(BASE + 'enrollStudent', json={'email' : 'bob14@gmail.com', 'courseName' : 'English'})
+# print(response.json())
+response = requests.delete(BASE + 'dropCourse', json={'email' : 'bob14@gmail.com', 'courseName' : 'Math'})
 print(response.json())
-import requests
+response = requests.get(BASE + 'studentCourses', json={'role' : 'Student', 'firstName' : 'Bob', 'lastName' : 'Simpson'})
+print(response.json())
+
+
+
+
+# import requests
 
 # BASE_URL = "http://127.0.0.1:5000/"
 # ENDPOINT = "createUser"
