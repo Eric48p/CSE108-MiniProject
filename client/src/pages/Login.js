@@ -21,15 +21,34 @@ function Login() {
     });
   };
 
-  const handleLogin = () => {
+  const handleLogin = async () => {
     if (loginData.email.trim() !== '' && loginData.password.trim() !== '') {
-      console.log('Email:', loginData.email.toLowerCase());
-      console.log('Password:', loginData.password);
+      try {
+        const response = await fetch('http://localhost:5000/login', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(loginData),
+        });
+        const data = await response.json();
+        if (response.ok) {
+          console.log(data.user); // Logged in successfully
+          localStorage.setItem('user', JSON.stringify(data.user)); // Store user data in local storage
+          // Redirect to the desired page after successful login
+          navigate('/MyCourses')
+        } else {
+          alert(data.error); // Display the error message from the backend
+        }
+      } catch (error) {
+        console.error('Error:', error);
+      }
     } else {
-      alert('Email or Password Incorrect.')
+      alert('Email or Password Incorrect.');
       console.log('Email or password is empty');
     }
   };
+  
 
   const handleCreateAccountClick = () => {
     navigate('/CreateAccount'); // Navigate to the CreateAccount page
@@ -47,7 +66,7 @@ function Login() {
             <h1>Student Portal</h1>
             <p>University of California, Merced</p>
             <div className='user-box'>
-              <input type='text' required value={loginData.email} name='email' onChange={handleInputChange} />
+              <input type='text' required value={loginData.email.toLowerCase()} name='email' onChange={handleInputChange} />
               <label>Email Address</label>
             </div>
             <div className='user-box'>

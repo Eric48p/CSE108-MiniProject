@@ -18,13 +18,6 @@ function AvailableCourses(){
               <th>Register</th>
             </tr>
             <AvailableCourse />
-            <AvailableCourse />
-            <AvailableCourse />
-            <AvailableCourse />
-            <AvailableCourse />
-            <AvailableCourse />
-            <AvailableCourse />
-            <AvailableCourse />
           </table>
         </div>
       </div>

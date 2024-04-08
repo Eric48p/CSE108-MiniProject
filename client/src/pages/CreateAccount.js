@@ -56,6 +56,7 @@ function CreateAccount() {
         .then((data) => {
           console.log("Success:", data);
           console.log(accountData);
+          navigate('/')
         })
         .catch((error) => {
           console.error("Error:", error);

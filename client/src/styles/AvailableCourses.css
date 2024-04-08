@@ -36,3 +36,24 @@
   font-size: 20px;
   text-align: center;
 }
+
+.drop-button{
+  border: none;
+  background-color: rgb(153, 35, 35);
+  width: 30px;
+  height: 30px;
+  border-radius: 100%;
+  color: white;
+  font-size: 20px;
+  cursor: pointer;
+}
+.register-button{
+  border: none;
+  background-color: green;
+  width: 30px;
+  height: 30px;
+  border-radius: 100%;
+  color: white;
+  font-size: 20px;
+  cursor: pointer;
+}

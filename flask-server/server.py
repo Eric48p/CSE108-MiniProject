@@ -42,7 +42,7 @@ class Accountdetails(db.Model):
   students_enrolled_in_course = db.relationship('StudentsEnrolledInCourse', backref='accountdetails')
 
   def __repr__(self):
-    return f"Accountdetails(name = {self.firstName}, last_name = {self.lastName}, email = {self.email}, id = {self.id})"
+    return f"Accountdetails(name = {self.firstName}, last_name = {self.lastName}, email = {self.email}, role = {self.role}, id = {self.id})"
 
   def to_dict(self):
     return {
@@ -93,10 +93,8 @@ admin.add_view(CoursesView(Courses, db.session))
 # Allows student to view their courses they are registered for
 @app.route('/studentCourses', methods=['GET'])
 def student_registered_courses():
-    data = request.json
 
-    if data:
-        id = data.get('id')
+    id = request.args.get('id')
 
     student = Accountdetails.query.filter_by(id=id).first()
 
@@ -115,33 +113,30 @@ def student_registered_courses():
 # Allows a teacher to see their courses
 @app.route('/teacherCourses', methods=['GET'])
 def teachers_courses():
-    data = request.json
+    # Sending the teacher's first and last name as query parameters
+    teacherFirstName = request.args.get('firstName')
+    teacherLastName = request.args.get('lastName')
 
-    if data:
-      teacherFirstName = data.get('firstName')
-      teacherLastName = data.get('lastName')
+    if teacherFirstName is None or teacherLastName is None:
+        return jsonify({'error': 'Teacher first name and last name are required in the query parameters'}), 400
 
     teacherFullName = teacherFirstName + ' ' + teacherLastName
 
     courses = Courses.query.filter_by(teacher=teacherFullName).all()
 
     if not courses:
-      return jsonify({'message': 'Teacher does not teach any courses'}), 404
+        return jsonify({'message': 'Teacher does not teach any courses'}), 404
 
     teacherCourses = []
-    for x in courses:
-      teacherCourses.append(x.to_dict())
+    for course in courses:
+        teacherCourses.append(course.to_dict())
 
-    
     return jsonify(teacherCourses)
 
 # Allows a teacher to see all the students in a specific course and their grade
 @app.route('/courseStudents', methods=['GET'])
 def students_in_Course():
-    data = request.json
-
-    if data:
-      courseId = data.get('id')
+    courseId = request.args.get('id')
 
     courses = Courses.query.filter_by(id=courseId).first()
     
@@ -222,14 +217,14 @@ def create_course():
     if data:
       courseName = data.get('courseName')
       teacher = data.get('teacher')
-      capacity = 0
+      capacity = data.get('capacity')
       courseTime = data.get('courseTime')
       totalEnrolled = 0
 
       course_exist = Courses.query.filter_by(courseName=courseName).first()
 
       if course_exist:
-        return jsonify({'error': 'Course already exist'}), 400
+        return jsonify({'error': 'Course already exist'}), 409
 
       new_course = Courses(courseName=courseName, teacher=teacher, courseTime=courseTime, capacity=capacity, totalEnrolled=totalEnrolled)
       db.session.add(new_course)
@@ -279,7 +274,7 @@ def enroll_student():
     if studentEnrolled:
       return jsonify({'error': 'Student is already enrolled in the course'}), 400
       
-    if student and student.role == 'Student':
+    if student and student.role == 'student':
         if not course:
           return jsonify({'error': 'Course does not exist'}), 400
         else:
@@ -344,7 +339,7 @@ def edit_student_grade():
   db.session.commit()
   return jsonify({'message' : 'Grade changed successfully'}), 201
 
-@app.route('/login', methods=['GET'])
+@app.route('/login', methods=['POST'])
 def loginUser():
   data = request.json
 
@@ -352,15 +347,21 @@ def loginUser():
     email = data.get('email')
     password = data.get('password')
 
-  account_exist = Accountdetails.query.filter_by(email=email).first()
+    account = Accountdetails.query.filter_by(email=email).first()
 
-  if account_exist:
-    if account_exist.password == password:
-      return jsonify({'message' : 'Logged in sucessfully'}), 201
+    if account and account.password == password:
+      user_data = { # On successful login, send user data to frontend
+        'id': account.id,
+        'email': account.email,
+        'firstName': account.firstName,
+        'lastName': account.lastName,  
+        'role': account.role
+      }
+      return jsonify({'user': user_data, 'message': 'Logged in successfully'}), 200
     else:
-      return jsonify({'error' : 'Password is incorrect'}), 400
+      return jsonify({'error': 'Invalid credentials'}), 401
   else:
-    return jsonify({'error' : 'Account does not exist'}), 400
+      return jsonify({'error': 'Invalid data sent'}), 400
 
 @app.route('/deleteUser', methods=['DELETE'])
 def delete_user():
@@ -380,6 +381,16 @@ def delete_user():
       return jsonify({'message': 'User deleted successfully'}), 201
     else:
       return jsonify({'message': 'User does not exist, cannot delete'}), 400
+
+@app.route('/getCourseName', methods=['GET'])
+def get_course_name():
+    course_id = request.args.get('id')
+    course = Courses.query.filter_by(id=course_id).first()
+
+    if course:
+        return jsonify({'courseName': course.courseName})
+    else:
+        return jsonify({'error': 'Course not found'}), 404
 
 # with app.app_context():
 #   db.create_all()
