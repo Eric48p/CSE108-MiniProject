@@ -152,7 +152,6 @@ def students_in_Course():
       studentData['grade'] = x.grade
       teacherCourses.append(studentData)
 
-    
     return jsonify(teacherCourses)
 
 # Returns all the courses under the courses table

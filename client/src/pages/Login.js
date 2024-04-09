@@ -21,6 +21,7 @@ function Login() {
     });
   };
 
+  // Send email and password to backend to verify credentials
   const handleLogin = async () => {
     if (loginData.email.trim() !== '' && loginData.password.trim() !== '') {
       try {

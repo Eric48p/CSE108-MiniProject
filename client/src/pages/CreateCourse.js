@@ -83,7 +83,8 @@ function CreateCourse(){
           <div className='CreateCourse-form-row'> {/* Course Time Input */}
             <input type='text' name='courseTime' placeholder='Course Time (Ex. MW 2-3 PM)'required value={courseData.courseTime} onChange={handleInputChange}/>
           </div>
-          <div className='CreateCourse-form-row'> {/* Course Capacity Input */}
+          <div className='CreateCourse-form-row' style={{flexDirection: "column"}}> {/* Course Capacity Input */}
+            <label>Course Capacity</label>
             <input type='number' name='capacity' placeholder='Course Capacity'required value={courseData.capacity} onChange={handleInputChange}/>
           </div>
           <div className='CreateCourse-form-row'> {/* Create Button */}
