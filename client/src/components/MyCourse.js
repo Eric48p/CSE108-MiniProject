@@ -37,7 +37,6 @@ export default function MyCourse ({userRole}){
       method: "GET",
       headers: {
         "Content-Type": "application/json",
-        // Add any other headers if required
       },
     })
       .then((response) => {
@@ -51,7 +50,6 @@ export default function MyCourse ({userRole}){
       })
       .catch((error) => {
         console.error("Error:", error)
-        // Handle errors from the GET request
       })
   }, [user.id]) // Include studentId in the dependency array to trigger the effect when it changes
 
